@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Project.Models;
+using Microsoft.EntityFrameworkCore.Design;
+namespace Project.Models;
 
-public class ProjectDbContext(DbContextOptions options) : DbContext(options)
+public class ProjectDbContext(DbContextOptions<ProjectDbContext> options) : DbContext(options)
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Spot> Spots => Set<Spot>();
@@ -27,5 +28,19 @@ public class ProjectDbContext(DbContextOptions options) : DbContext(options)
             .WithMany(c => c.Trips)
             .HasForeignKey(t => t.CreatorID)
             .OnDelete(DeleteBehavior.NoAction);
+    }
+}
+
+public class ProjectDbContextFactory : IDesignTimeDbContextFactory<ProjectDbContext>
+{
+    public ProjectDbContext CreateDbContext(string[] args)
+    {
+        // Lê a connection string
+        var connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTION");
+
+        var optionsBuilder = new DbContextOptionsBuilder<ProjectDbContext>();
+        optionsBuilder.UseSqlServer(connectionString);
+
+        return new ProjectDbContext(optionsBuilder.Options);
     }
 }
