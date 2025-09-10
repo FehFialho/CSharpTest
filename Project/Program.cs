@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Project.Endpoints;
 using Project.Models;
+using Project.Services.BeautyDesc;
 using Project.Services.JWT;
 using Project.UseCases.AddSpot;
 using Project.UseCases.CreateTrip;
@@ -21,12 +22,18 @@ builder.Services.AddDbContext<ProjectDbContext>(options =>
 
 // Services
 builder.Services.AddSingleton<IJWTService, JWTService>();
+// derrubando
+builder.Services.AddSingleton<IBeautyDesc, BeautyDesc>();
 
 // UseCases
-// builder.Services.AddSingleton<LoginUseCase>();
+
+// Derrubando o app
+// builder.Services.AddTransient<LoginUseCase>();
 builder.Services.AddTransient<CreateTripUseCase>();
-builder.Services.AddTransient<AddSpotUseCase>();
-builder.Services.AddTransient<GetTripUseCase>();
+
+// funcionando
+builder.Services.AddScoped<AddSpotUseCase>();
+builder.Services.AddScoped<GetTripUseCase>();
 
 // JWT Vars
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");

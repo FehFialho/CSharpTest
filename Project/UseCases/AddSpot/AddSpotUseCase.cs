@@ -7,23 +7,23 @@ public class AddSpotUseCase(
     // Criar Extract JWT para inserir criador!
 )
 {
-    public async Task<Result<AddSpotResponse>> Do(AddSpotRequest request) // Mudar para DTO depois
+    public async Task<Result<AddSpotResponse>> Do(AddSpotPayload payload) // Mudar para DTO depois
     {
 
-        var spot = await ctx.Spots.FindAsync(request.spotID);
+        var spot = await ctx.Spots.FindAsync(payload.spotID);
 
         if (spot is null)
             return Result<AddSpotResponse>.Fail("Ponto não encontrado!");    
 
-        var trip = await ctx.Trips.FindAsync(request.tripID);
+        var trip = await ctx.Trips.FindAsync(payload.tripID);
         
         if (trip is null)
             return Result<AddSpotResponse>.Fail("Viagem não encontrada!");    
 
         var tripSpot = new TripSpot
         {
-            TripID = request.tripID,
-            SpotID = request.spotID,
+            TripID = payload.tripID,
+            SpotID = payload.spotID,
             Trip = trip,
             Spot = spot
         };
