@@ -22,8 +22,7 @@ public class CreateTripUseCase(
             Creator = user,
             CreatorID = payload.userID,
             Title = payload.title,
-            Description = payload.description
-            // beautyDesc.RemoveDoubleSpace(payload.description) 
+            Description = payload.description  // beautyDesc.RemoveDoubleSpace(payload.description) 
             // Beauty Desc Implementado, porém esta dando problema de lifetime
         };
 

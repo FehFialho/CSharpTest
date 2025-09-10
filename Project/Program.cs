@@ -22,8 +22,8 @@ builder.Services.AddDbContext<ProjectDbContext>(options =>
 
 // Derrubando 
 // builder.Services.AddScoped<IBeautyDesc, BeautyDesc>();
-builder.Services.AddTransient<CreateTripUseCase>(); // Só não funciona quando com o Serviço BeautyDesc
-// combinações testadas:
+builder.Services.AddTransient<CreateTripUseCase>(); // Só não funciona quando o BeatyDesc é usado nele.
+// Combinações testadas:
 // SING, SING
 // SING, TRAN
 // SING, SCOP
@@ -40,9 +40,10 @@ builder.Services.AddTransient<CreateTripUseCase>(); // Só não funciona quando 
 // Derrubando sozinho, testado em SCOP, TRAN, SING
 
 // Serviços e UseCases - Funcionando
-builder.Services.AddSingleton<IJWTService, JWTService>();
-builder.Services.AddScoped<AddSpotUseCase>();
 builder.Services.AddScoped<GetTripUseCase>();
+builder.Services.AddSingleton<IJWTService, JWTService>();
+// Esse e o CreateTrip só precisa colocar o token no header da requisição, já que precisa de JWT
+builder.Services.AddScoped<AddSpotUseCase>();
 
 // JWT Vars
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
@@ -86,5 +87,7 @@ app.UseAuthorization(); // Config JWT
 app.ConfigureUserEndpoints();
 app.ConfigureSpotEndpoints();
 app.ConfigureTripEndpoints();
+
+app.MapGet("/", () => "Vá para /swagger!");
 
 app.Run();
