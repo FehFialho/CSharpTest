@@ -1,9 +1,29 @@
+using Project.Models;
+
 namespace Project.UseCases.CreateTrip;
 
-public class CreateTripUseCase()
+public class CreateTripUseCase(
+    ProjectDbContext ctx
+    // Criar Extract JWT para inserir criador!
+)
 {
-    public async Task<Result<CreateTripResponse>> Do(CreateTripRequest payload) // Mudar para DTO depois
+    public async Task<Result<CreateTripResponse>> Do(CreateTripRequest request) // Mudar para DTO depois
     {
+
+        var user = await ctx.Users.FindAsync(1); // Temporário até implementar JWT Extractor!
+
+        var trip = new Trip
+        {
+            // Creator ID e Creator com JWT Depois!
+            Creator = user,
+            CreatorID = 1,
+            Title = request.title,
+            Description = request.description
+        };
+
+        ctx.Trips.Add(trip);
+        await ctx.SaveChangesAsync();
+
         return Result<CreateTripResponse>.Success(null); // Mudar
     }
 }
