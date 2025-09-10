@@ -7,5 +7,5 @@ public class User
     public required string CompleteName { get; set; }
     public required string Password { get; set; }
 
-    ICollection<Trip>? Trips { get; set; }
+    public ICollection<Trip>? Trips { get; set; }
 }
