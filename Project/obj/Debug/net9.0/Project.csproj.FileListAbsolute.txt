@@ -160,3 +160,9 @@ C:\Users\disrct\Desktop\CSharpTest\Project\obj\Debug\net9.0\refint\Project.dll
 C:\Users\disrct\Desktop\CSharpTest\Project\obj\Debug\net9.0\Project.pdb
 C:\Users\disrct\Desktop\CSharpTest\Project\obj\Debug\net9.0\Project.genruntimeconfig.cache
 C:\Users\disrct\Desktop\CSharpTest\Project\obj\Debug\net9.0\ref\Project.dll
+C:\Users\disrct\Desktop\CSharpTest\Project\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\disrct\Desktop\CSharpTest\Project\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Users\disrct\Desktop\CSharpTest\Project\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\disrct\Desktop\CSharpTest\Project\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\disrct\Desktop\CSharpTest\Project\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\disrct\Desktop\CSharpTest\Project\obj\Debug\net9.0\Project.MvcApplicationPartsAssemblyInfo.cs

@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Project.Endpoints;
 using Project.Models;
 using Project.Services.JWT;
 using Project.UseCases.AddSpot;
@@ -22,14 +23,18 @@ builder.Services.AddDbContext<ProjectDbContext>(options =>
 builder.Services.AddSingleton<IJWTService, JWTService>();
 
 // UseCases
+// builder.Services.AddSingleton<LoginUseCase>();
 builder.Services.AddTransient<CreateTripUseCase>();
 builder.Services.AddTransient<AddSpotUseCase>();
-builder.Services.AddScoped<LoginUseCase>();
 builder.Services.AddTransient<GetTripUseCase>();
 
 // JWT Vars
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
-var keyBytes = Encoding.UTF8.GetBytes(jwtSecret);
+
+if (jwtSecret is null)
+    Console.WriteLine("Configure o jwtSecret!");
+
+var keyBytes = Encoding.UTF8.GetBytes(jwtSecret!);
 var key = new SymmetricSecurityKey(keyBytes);
 
 // JWT Main
@@ -56,12 +61,15 @@ builder.Services.AddSwaggerGen(); // Swagger
 
 var app = builder.Build();
 
+app.UseSwagger(); // Swagger
+app.UseSwaggerUI(); // Swagger
 
 app.UseAuthentication(); // Config JWT
 app.UseAuthorization(); // Config JWT
 
-app.UseSwagger(); // Swagger
-app.UseSwaggerUI(); // Swagger
+app.ConfigureUserEndpoints();
+app.ConfigureSpotEndpoints();
+app.ConfigureTripEndpoints();
 
 app.MapGet("/", () => "Hello World!");
 

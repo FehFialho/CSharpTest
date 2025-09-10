@@ -11,6 +11,9 @@ public class CreateTripUseCase(
     {
 
         var user = await ctx.Users.FindAsync(1); // Temporário até implementar JWT Extractor!
+            Result<CreateTripResponse>.Success(null!);
+        if (user is null)
+            return Result<CreateTripResponse>.Fail("Usuário não encontrado");
 
         var trip = new Trip
         {
@@ -24,6 +27,6 @@ public class CreateTripUseCase(
         ctx.Trips.Add(trip);
         await ctx.SaveChangesAsync();
 
-        return Result<CreateTripResponse>.Success(null); // Mudar
+        return Result<CreateTripResponse>.Success(null!); // Mudar
     }
 }

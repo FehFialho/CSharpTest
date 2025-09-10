@@ -10,7 +10,13 @@ public class JWTService : IJWTService
     public string CreateToken(ProfileToAuth data)
     {
         var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
-        var keyBytes = Encoding.UTF8.GetBytes(jwtSecret);
+
+        if (jwtSecret is null)
+            Console.WriteLine("Configure o jwtSecret!");
+
+        var keyBytes = Encoding.UTF8.GetBytes(jwtSecret!);
+
+
         var key = new SymmetricSecurityKey(keyBytes);
 
         var jwt = new JwtSecurityToken(
