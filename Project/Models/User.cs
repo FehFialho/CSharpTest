@@ -2,7 +2,7 @@ namespace Project.Models;
 
 public class User
 {
-    public Guid ID { get; set; }
+    public int ID { get; set; } // Usando ID pra facilitar inserção manual no DB
     public required string Username { get; set; }
     public required string CompleteName { get; set; }
     public required string Password { get; set; }
