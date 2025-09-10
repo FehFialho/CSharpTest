@@ -14,4 +14,4 @@ Prova de CSharp com Leonardo Trevisan.
 ### Variáveis de Ambiente
 * JWT - ```$env:JWT_SECRET = "vW9f!2gH7pQ#kLmN4rT8yUvWxZ1aB3cD"```
 * SQL -
-* ```$env:SQL_CONNECTION = "Data Source=localhost\SQLEXPRESS;Initial Catalog=CsExam;Trust Server Certificate=true;Integrated Security=true"```
+```$env:SQL_CONNECTION = "Data Source=localhost\SQLEXPRESS;Initial Catalog=CsExam;Trust Server Certificate=true;Integrated Security=true"```
