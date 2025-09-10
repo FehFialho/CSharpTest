@@ -3,6 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Project.Models;
+using Project.Services.JWT;
+using Project.UseCases.AddSpot;
+using Project.UseCases.CreateTrip;
+using Project.UseCases.GetTrip;
+using Project.UseCases.Login;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +17,15 @@ builder.Services.AddDbContext<ProjectDbContext>(options =>
     var sqlConn = Environment.GetEnvironmentVariable("SQL_CONNECTION");
     options.UseSqlServer(sqlConn);
 });
+
+// Services
+builder.Services.AddSingleton<IJWTService, JWTService>();
+
+// UseCases
+builder.Services.AddTransient<CreateTripUseCase>();
+builder.Services.AddTransient<AddSpotUseCase>();
+builder.Services.AddScoped<LoginUseCase>();
+builder.Services.AddTransient<GetTripUseCase>();
 
 // JWT Vars
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
@@ -37,14 +51,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthentication(); // Config JWT
 builder.Services.AddAuthorization(); // Config JWT
 
+builder.Services.AddEndpointsApiExplorer(); // Swagger
+builder.Services.AddSwaggerGen(); // Swagger
+
 var app = builder.Build();
 
 
 app.UseAuthentication(); // Config JWT
 app.UseAuthorization(); // Config JWT
 
+app.UseSwagger(); // Swagger
+app.UseSwaggerUI(); // Swagger
 
 app.MapGet("/", () => "Hello World!");
-
 
 app.Run();
