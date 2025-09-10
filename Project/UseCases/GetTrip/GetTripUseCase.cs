@@ -18,15 +18,15 @@ public class GetTripUseCase(
             .Where(tp => tp.TripID == request.tripID)
             .Select(tp => tp.Spot.Title)
             .ToListAsync;
+            
+        // var response = new GetTripResponse
+        // {
+        //     creatorName = trip.Creator.CompleteName,
+        //     title = trip.Title,
+        //     description = trip.Description,
+        //     Spots = spots 
+        // };
 
-        var response = new GetTripResponse
-        {
-            creatorName = trip.Creator.CompleteName,
-            title = trip.Title,
-            description = trip.Description,
-            Spots = spots 
-        };
-
-        return Result<GetTripResponse>.Success(null); // Mudar
+        return Result<GetTripResponse>.Success(new(trip)); // Mudar
     }
 }

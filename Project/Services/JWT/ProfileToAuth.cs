@@ -1,6 +1,6 @@
 namespace Project.Services.JWT;
 
 public record ProfileToAuth(
-    Guid ProfileId,
+    int ProfileId,
     string Username
 );
