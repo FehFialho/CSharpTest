@@ -16,7 +16,6 @@ public class JWTService : IJWTService
 
         var keyBytes = Encoding.UTF8.GetBytes(jwtSecret!);
 
-
         var key = new SymmetricSecurityKey(keyBytes);
 
         var jwt = new JwtSecurityToken(

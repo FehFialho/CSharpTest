@@ -20,10 +20,11 @@ builder.Services.AddDbContext<ProjectDbContext>(options =>
     options.UseSqlServer(sqlConn);
 });
 
-// Derrubando 
-// builder.Services.AddScoped<IBeautyDesc, BeautyDesc>();
+// Derrubando o App
+builder.Services.AddTransient<IBeautyDesc, BeautyDesc>();
 builder.Services.AddTransient<CreateTripUseCase>(); // Só não funciona quando o BeatyDesc é usado nele.
-// Combinações testadas:
+
+// Combinações testadas em par:
 // SING, SING
 // SING, TRAN
 // SING, SCOP
@@ -36,14 +37,13 @@ builder.Services.AddTransient<CreateTripUseCase>(); // Só não funciona quando 
 // SCOP, TRAN
 // SCOP, SCOP
 
-// builder.Services.AddTransient<LoginUseCase>();
-// Derrubando sozinho, testado em SCOP, TRAN, SING
-
 // Serviços e UseCases - Funcionando
-builder.Services.AddScoped<GetTripUseCase>();
 builder.Services.AddSingleton<IJWTService, JWTService>();
-// Esse e o CreateTrip só precisa colocar o token no header da requisição, já que precisa de JWT
-builder.Services.AddScoped<AddSpotUseCase>();
+builder.Services.AddScoped<GetTripUseCase>();
+builder.Services.AddScoped<AddSpotUseCase>(); // Esse e o CreateTrip só precisa colocar o token no header da requisição, já que precisa de JWT
+
+// Derrubando sozinho por causa do LifeTime entre ele e JWT, testado em SCOP, TRAN, SING
+// builder.Services.AddTransient<LoginUseCase>(); 
 
 // JWT Vars
 var jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
