@@ -4,10 +4,9 @@ namespace Project.UseCases.AddSpot;
 
 public class AddSpotUseCase(
     ProjectDbContext ctx
-    // Criar Extract JWT para inserir criador!
 )
 {
-    public async Task<Result<AddSpotResponse>> Do(AddSpotPayload payload) // Mudar para DTO depois
+    public async Task<Result<AddSpotResponse>> Do(AddSpotPayload payload)
     {
 
         var spot = await ctx.Spots.FindAsync(payload.spotID);
@@ -19,6 +18,9 @@ public class AddSpotUseCase(
         
         if (trip is null)
             return Result<AddSpotResponse>.Fail("Viagem não encontrada!");    
+
+        if (payload.userID != trip.CreatorID)
+            return Result<AddSpotResponse>.Fail("Apenas o criador do passeio pode adicionar pontos!");    
 
         var tripSpot = new TripSpot
         {

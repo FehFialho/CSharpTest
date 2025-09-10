@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Project.UseCases.CreateTrip;
 using Project.UseCases.GetTrip;
@@ -23,9 +24,23 @@ public static class TripEndpoints
         // CreateTrip
         app.MapPost("create-trip", async (
             [FromServices] CreateTripUseCase useCase,
-            [FromBody] CreateTripRequest payload) =>
+            [FromBody] CreateTripRequest request,
+            HttpContext context) =>
         {
-            var result = await useCase.Do(payload); // Mudar Depois
+            // Pegando ID
+            var claim = context.User.FindFirst(ClaimTypes.NameIdentifier);
+            if (claim is null)
+                return null;
+            var id = int.Parse(claim.Value);
+
+            // Juntando Infos
+            var dto = new CreateTripPayload(
+                id,
+                request.title,
+                request.description
+            );      
+
+            var result = await useCase.Do(dto);
 
             if (!result.IsSuccess)
                 return Results.BadRequest();
