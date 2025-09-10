@@ -4,8 +4,8 @@ using Project.Services.BeautyDesc;
 namespace Project.UseCases.CreateTrip;
 
 public class CreateTripUseCase(
-    ProjectDbContext ctx,
-    BeautyDesc beautyDesc
+    ProjectDbContext ctx
+    // ,BeautyDesc beautyDesc
 )
 {
     public async Task<Result<CreateTripResponse>> Do(CreateTripPayload payload) 
@@ -22,7 +22,9 @@ public class CreateTripUseCase(
             Creator = user,
             CreatorID = payload.userID,
             Title = payload.title,
-            Description = beautyDesc.RemoveDoubleSpace(payload.description) // Implementado
+            Description = payload.description
+            // beautyDesc.RemoveDoubleSpace(payload.description) 
+            // Beauty Desc Implementado, porém esta dando problema de lifetime
         };
 
         ctx.Trips.Add(trip);

@@ -20,18 +20,27 @@ builder.Services.AddDbContext<ProjectDbContext>(options =>
     options.UseSqlServer(sqlConn);
 });
 
-// Services
-builder.Services.AddSingleton<IJWTService, JWTService>();
-// derrubando
-builder.Services.AddSingleton<IBeautyDesc, BeautyDesc>();
+// Derrubando 
+// builder.Services.AddScoped<IBeautyDesc, BeautyDesc>();
+builder.Services.AddTransient<CreateTripUseCase>(); // Só não funciona quando com o Serviço BeautyDesc
+// combinações testadas:
+// SING, SING
+// SING, TRAN
+// SING, SCOP
 
-// UseCases
+// TRAN, SING
+// TRAN, TRAN
+// TRAN, SCOP
 
-// Derrubando o app
+// SCOP, SING
+// SCOP, TRAN
+// SCOP, SCOP
+
 // builder.Services.AddTransient<LoginUseCase>();
-builder.Services.AddTransient<CreateTripUseCase>();
+// Derrubando sozinho, testado em SCOP, TRAN, SING
 
-// funcionando
+// Serviços e UseCases - Funcionando
+builder.Services.AddSingleton<IJWTService, JWTService>();
 builder.Services.AddScoped<AddSpotUseCase>();
 builder.Services.AddScoped<GetTripUseCase>();
 
@@ -77,7 +86,5 @@ app.UseAuthorization(); // Config JWT
 app.ConfigureUserEndpoints();
 app.ConfigureSpotEndpoints();
 app.ConfigureTripEndpoints();
-
-app.MapGet("/", () => "Hello World!");
 
 app.Run();
