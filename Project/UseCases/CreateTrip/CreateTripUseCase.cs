@@ -1,9 +1,11 @@
 using Project.Models;
+using Project.Services.BeautyDesc;
 
 namespace Project.UseCases.CreateTrip;
 
 public class CreateTripUseCase(
-    ProjectDbContext ctx
+    ProjectDbContext ctx,
+    BeautyDesc beautyDesc
     // Criar Extract JWT para inserir criador!
 )
 {
@@ -21,7 +23,7 @@ public class CreateTripUseCase(
             Creator = user,
             CreatorID = 1,
             Title = request.title,
-            Description = request.description
+            Description = beautyDesc.RemoveDoubleSpace(request.description) // Implementado
         };
 
         ctx.Trips.Add(trip);

@@ -9,11 +9,11 @@ public static class TripEndpoints
     public static void ConfigureTripEndpoints(this WebApplication app)
     {
         // GetTrip
-        app.MapGet("view-trip", async (
-            [FromServices] GetTripUseCase useCase,
-            [FromBody] GetTripRequest request) =>
+        app.MapGet("view-trip/{tripID}", async (
+            int tripID,
+            [FromServices] GetTripUseCase useCase) =>
         {
-            var result = await useCase.Do(request); // Mudar depois
+            var result = await useCase.Do(tripID); // Mudar depois
 
             if (!result.IsSuccess)
                 return Results.BadRequest();
