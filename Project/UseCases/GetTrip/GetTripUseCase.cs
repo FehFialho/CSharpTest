@@ -1,9 +1,32 @@
+using Microsoft.EntityFrameworkCore;
+using Project.Models;
+
 namespace Project.UseCases.GetTrip;
 
-public class GetTripUseCase()
+public class GetTripUseCase(
+    ProjectDbContext ctx
+)
 {
-    public async Task<Result<GetTripResponse>> Do(GetTripRequest payload) // Mudar para DTO depois
+    public async Task<Result<GetTripResponse>> Do(GetTripRequest request) 
     {
+        var trip = await ctx.Trips.FindAsync(request.tripID);
+
+        if (trip is null)
+            return Result<GetTripResponse>.Fail("Passeio não encontrado!");
+
+        var spots = ctx.TripSpots
+            .Where(tp => tp.TripID == request.tripID)
+            .Select(tp => tp.Spot.Title)
+            .ToListAsync;
+
+        var response = new GetTripResponse
+        {
+            creatorName = trip.Creator.CompleteName,
+            title = trip.Title,
+            description = trip.Description,
+            Spots = spots 
+        };
+
         return Result<GetTripResponse>.Success(null); // Mudar
     }
 }
