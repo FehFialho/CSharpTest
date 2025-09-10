@@ -9,7 +9,7 @@ public class LoginUseCase(
     JWTService jWTService
 )
 {
-    public async Task<Result<LoginResponse>> Do(LoginRequest request)
+    public async Task<Result<LoginResponse>> Do(LoginRequestt request)
     {
         var user = await ctx.Users.FirstOrDefaultAsync(p => p.Username == request.login);
 

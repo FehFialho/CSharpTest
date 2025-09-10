@@ -1,6 +1,6 @@
 namespace Project.UseCases.Login;
 
-public record LoginRequest(
+public record LoginRequestt(
     string login,
     string password
 );
